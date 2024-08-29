@@ -1,19 +1,17 @@
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth"
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBWIaSGjfLsGMJFFffe1cewWieHPhPGkiQ",
-  authDomain: "nases-galery.firebaseapp.com",
-  projectId: "nases-galery",
-  storageBucket: "nases-galery.appspot.com",
-  messagingSenderId: "190064264590",
-  appId: "1:190064264590:web:7d81b6a80086a3638b10df",
-  measurementId: "G-GS2K849K82"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app)
+const appFirebase = initializeApp(firebaseConfig);
 
-export { app, auth}
+export default  appFirebase;
