@@ -6,8 +6,6 @@ export const validationRegister = (input:registerUser):registerErrors =>{
     const regexPasswordWord= /[a-zA-Z]/ 
     const regexPasswordSpecial= /[!@#$%&*()<>|]/ 
     const error:registerErrors = {
-        firstName:"",
-        lastName:"",
         email:"",
         password:"",
     }
@@ -17,18 +15,6 @@ export const validationRegister = (input:registerUser):registerErrors =>{
     }
     if(!input.email){
         error.email='Debe ingresar un correo'
-    }
-    if(!input.firstName){
-        error.firstName='Debe ingresar un Nombre'
-    }
-    if(input.firstName.length < 3){
-        error.firstName='El nombre ingresado no es valido'
-    }
-    if(!input.lastName){
-        error.lastName='Debe ingresar un Apellido'
-    }
-    if(input.lastName.length < 3){
-        error.lastName='El apellido ingresado no es valido'
     }
     if(!regexPasswordNumber.test(input.password)){
         error.password = 'La contraseña debe tener por lo menos un número'

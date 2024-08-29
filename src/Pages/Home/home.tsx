@@ -1,6 +1,7 @@
 function HomeComponent() {
     return ( 
         <>
+        Este es el Home
         </>
      );
 }

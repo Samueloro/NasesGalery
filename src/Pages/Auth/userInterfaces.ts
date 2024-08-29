@@ -1,6 +1,4 @@
 export interface registerUser{
-    firstName:string;
-    lastName:string;
     email:string;
     password:string;
 }
@@ -16,8 +14,6 @@ export interface loginErrors {
 }
 
 export interface registerErrors {
-    firstName:string;
-    lastName:string;
     email:string;
     password:string;
 }

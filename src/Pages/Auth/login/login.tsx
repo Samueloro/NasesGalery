@@ -1,12 +1,20 @@
 import React, { useState } from "react";
+//interfaces
 import {
   loginErrors,
   loginUser,
   registerErrors,
   registerUser,
 } from "../userInterfaces";
+//
 import { validationLogin } from "./loginValidation";
 import { validationRegister } from "./registerValidation";
+
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../../firebase/firebaseConfig";
 
 function LoginComponent() {
   //manejar los errores de logueo
@@ -17,8 +25,6 @@ function LoginComponent() {
 
   // manejar errores de registro
   const [errorsRegister, setErrorsRegister] = useState<registerErrors>({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
@@ -42,17 +48,17 @@ function LoginComponent() {
         [name]: value,
       })
     );
-    console.log(errorsLogin);
   };
 
   //obtener la información del usuario al registrarse
   const [userRegister, setUserRegister] = useState<registerUser>({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
-  const handleRegisterChange = (event: any): void => {
+
+  const handleRegisterChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { name, value } = event.target;
     setUserRegister({
       ...userRegister,
@@ -73,6 +79,41 @@ function LoginComponent() {
     setFormRegister((prevState) => !prevState);
   };
 
+  //función de registro para el usuario
+
+  const registerUser = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (errorsRegister.email === "" && errorsRegister.password === "") {
+      try {
+        await createUserWithEmailAndPassword(
+          auth,
+          userRegister.email,
+          userRegister.password
+        );
+        alert("se ha logueado");
+      } catch (error) {
+        alert("Error al crear usuario");
+      }
+    }
+  };
+
+  //función de login para el usuario
+  const loginUser = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!errorsLogin.email && !errorsLogin.password) {
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          userLogin.email,
+          userLogin.password
+        );
+        alert("se ha logueado");
+      } catch (error) {
+        alert("Email o contraseña incorrectos");
+      }
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 w-screen h-screen bg-slate-800 overflow-hidden">
       {formRegister && (
@@ -81,52 +122,7 @@ function LoginComponent() {
             <p className="text-3xl font-semibold pb-7 flex items-center justify-center">
               Registro
             </p>
-            <form className="flex flex-col">
-              <div className="flex flex-row">
-                <div className="flex flex-col mr-6">
-                  <label
-                    className="block text-gray-700 text-sm font-medium mb-2"
-                    htmlFor="firstName"
-                  >
-                    Nombre
-                  </label>
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
-                    type="text"
-                    placeholder="Ingresa tu nombre"
-                    onChange={handleRegisterChange}
-                  />
-                  {errorsRegister.firstName && (
-                    <span className="text-sm p-0 m-0 text-red-500">
-                      {errorsRegister.firstName}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col">
-                  <label
-                    className="block text-gray-700 text-sm font-medium mb-2"
-                    htmlFor="lastName"
-                  >
-                    Apellido
-                  </label>
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
-                    type="text"
-                    placeholder="Ingresa tu apellido"
-                    onChange={handleRegisterChange}
-                  />
-                  {errorsRegister.lastName && (
-                    <span className="text-sm p-0 m-0 text-red-500">
-                      {errorsRegister.lastName}
-                    </span>
-                  )}
-                </div>
-              </div>
-
+            <form className="flex flex-col" onSubmit={registerUser}>
               <label
                 className="block text-gray-700 text-sm font-medium mb-2"
                 htmlFor="email"
@@ -162,23 +158,26 @@ function LoginComponent() {
                 onChange={handleRegisterChange}
               />
               {errorsRegister.password && (
-                <span className="text-sm p-0 m-0 text-red-500">
+                <span className="text-sm p-0 m-0  text-red-500">
                   {errorsRegister.password}
                 </span>
               )}
-            </form>
-            <div className="flex flex-row justify-between items-center">
-              <button
-                onClick={registerForm}
-                className="p-2 mt-6 bg-red-800 rounded-lg hover:scale-95 active:scale-90 active:bg-red-900"
-              >
-                Tengo una cuenta
-              </button>
+              <div className="flex flex-row justify-between items-center">
+                <button
+                  onClick={registerForm}
+                  className="p-2 mt-6 mr-8 bg-red-800 rounded-lg hover:scale-95 active:scale-90 active:bg-red-900"
+                >
+                  Tengo una cuenta
+                </button>
 
-              <button className="p-2 mt-6 bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800">
-                Crear cuenta
-              </button>
-            </div>
+                <button
+                  className="p-2 mt-6 ml-8 bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
+                  type="submit"
+                >
+                  Crear cuenta
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -186,7 +185,7 @@ function LoginComponent() {
         <h1 className="text-4xl font-semibold p-8">Nases Galery</h1>
         <p className="text-2xl font-medium pb-7">Ingresa a tu cuenta</p>
 
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={loginUser}>
           <label
             className="block text-gray-700 text-sm font-medium mb-2"
             htmlFor="email"
@@ -226,18 +225,18 @@ function LoginComponent() {
               {errorsLogin.password}
             </span>
           )}
+          <button
+            className="p-2 mt-6 w-full bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
+            type="submit"
+          >
+            Ingresa
+          </button>
         </form>
 
-        <button
-          onClick={registerForm}
-          className="p-2 mt-6 w-52 bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
-        >
-          Ingresa
-        </button>
         <span>o</span>
         <button
           onClick={registerForm}
-          className="p-2 mb-6 w-52 bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
+          className="p-2 mb-6 w-fit bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
         >
           Crea una cuenta
         </button>
