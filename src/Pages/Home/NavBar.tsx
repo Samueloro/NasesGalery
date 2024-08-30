@@ -1,13 +1,17 @@
 import { signOut } from "firebase/auth";
-import { auth, uploadfile } from "../../firebase/firebaseConfig";
+import { auth, storage } from "../../firebase/firebaseConfig";
 import { useNavigate, Link } from "react-router-dom";
 import React, { useState } from "react";
+import { ref, uploadBytes } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid'
+
 
 interface NavbarProps {
-  userName:string | undefined;
+  userName: string | undefined;
+  userId:string | undefined;
 }
 
-function NavBar({userName}:Readonly<NavbarProps>) {
+function NavBar({ userName, userId }: Readonly<NavbarProps>) {
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -21,8 +25,16 @@ function NavBar({userName}:Readonly<NavbarProps>) {
     setPicsForm((prevStatus) => !prevStatus);
   };
 
+  //Subir imágen
   const [file, setFile] = useState<File | null>(null);
-  
+
+  const uploadfile = (file: File) => {
+    const storageRef = ref(storage, `${userName}/${uuidv4()}`);
+    uploadBytes(storageRef, file).then((snapshot) => {
+      alert("Imagen subida");
+    });
+  };
+
   const chargeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     setFile(selectedFile || null);
@@ -39,10 +51,10 @@ function NavBar({userName}:Readonly<NavbarProps>) {
     <div className="flex flex-row justify-around p-6 bg-slate-800 text-white">
       <ul className="flex flex-row w-full justify-around">
         <li>
-          <Link to="/home">Inicio</Link>
+          <Link to="/home" className="hover:underline">Inicio</Link>
         </li>
         <li>
-          <button onClick={uploadaNewPic}>Subir Fotos</button>
+          <button onClick={uploadaNewPic} className="hover:underline">Subir Fotos</button>
         </li>
         {picsForm && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -55,19 +67,9 @@ function NavBar({userName}:Readonly<NavbarProps>) {
                   id="image"
                   name="image"
                   type="file"
-                  className="hidden"
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                   onChange={chargeFile}
                 />
-                <label
-                  htmlFor="image"
-                  className="cursor-pointer bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                >
-                  Subir Imagen
-                </label>
-                <span
-                  id="fileName"
-                  className="mt-2 text-sm text-gray-700"
-                ></span>
               </div>
 
               <div className="flex flex-row justify-between items-center">
@@ -85,10 +87,12 @@ function NavBar({userName}:Readonly<NavbarProps>) {
           </div>
         )}
         <li>
-          <Link to="/home" className="capitalize" >{userName}</Link>
+          <Link to={`profile/${userName}`} className="capitalize hover:underline">
+            Perfil : {userName}
+          </Link>
         </li>
       </ul>
-      <button className=" w-32" onClick={logOut}>
+      <button className=" w-32 hover:underline" onClick={logOut} >
         Cerrar Sesion
       </button>
     </div>

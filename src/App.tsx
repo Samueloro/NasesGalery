@@ -13,6 +13,7 @@ function App() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userName, setUserName] = useState<string>();
+  const [userId, setUserId] = useState<string>();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userF) => {
@@ -26,7 +27,7 @@ function App() {
         } else {
           console.log("No se encontró el documento");
         }
-
+        setUserId(userF.uid)
         navigate("/home");
       } else {
         navigate("/");
@@ -35,7 +36,8 @@ function App() {
     });
     //limpiar la subscripción
     return () => unsubscribe();
-  }, [navigate]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -44,7 +46,7 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<LoginComponent />} />
-        <Route path="/home" element={<HomeComponent userName={userName}/>} />
+        <Route path="/home/*" element={<HomeComponent userName={userName} userId={userId}/>} />
       </Routes>
     </>
   );
