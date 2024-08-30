@@ -1,5 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid'
+import {getFirestore} from "firebase/firestore"
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBWIaSGjfLsGMJFFffe1cewWieHPhPGkiQ",
@@ -13,7 +16,17 @@ export const firebaseConfig = {
 
 // Initialize Firebase
 const appFirebase = initializeApp(firebaseConfig);
+
+
 const auth = getAuth(appFirebase);
+const storage = getStorage(appFirebase);
+const firestore = getFirestore(appFirebase)
 
+export const uploadfile = (file: File) => {
+  const storageRef = ref(storage, uuidv4());
+  uploadBytes(storageRef, file).then((snapshot) => {
+    alert('Imagen subida')
+  });
+};
 
-export {appFirebase, auth};
+export { appFirebase, auth, storage, firestore };

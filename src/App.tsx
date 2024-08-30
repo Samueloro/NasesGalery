@@ -4,15 +4,29 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginComponent from "./Pages/Auth/login/Login";
 import HomeComponent from "./Pages/home/Home";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebaseConfig";
+import { auth, firestore } from "./firebase/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
+
+
 
 function App() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [userName, setUserName] = useState<string>();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (userF) => {
+    const unsubscribe = onAuthStateChanged(auth, async (userF) => {
+      const userRef = doc(firestore, `users/${userF?.uid}`);
+      const userDoc = await getDoc(userRef);
+
       if (userF) {
+        if (userDoc) {
+          const userData = userDoc.data();
+          setUserName(userData?.userName || "Unknown");
+        } else {
+          console.log("No se encontró el documento");
+        }
+
         navigate("/home");
       } else {
         navigate("/");
@@ -25,10 +39,12 @@ function App() {
 
   return (
     <>
-      {isLoading && <div className="flex justify-center items-center">Cargando...</div>}
+      {isLoading && (
+        <div className="flex justify-center items-center">Cargando...</div>
+      )}
       <Routes>
         <Route path="/" element={<LoginComponent />} />
-        <Route path="/home" element={<HomeComponent />} />
+        <Route path="/home" element={<HomeComponent userName={userName}/>} />
       </Routes>
     </>
   );

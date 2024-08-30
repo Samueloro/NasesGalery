@@ -1,6 +1,7 @@
 export interface registerUser{
     email:string;
     password:string;
+    userName:string;
 }
 
 export interface loginUser {
@@ -16,4 +17,6 @@ export interface loginErrors {
 export interface registerErrors {
     email:string;
     password:string;
+    userName:string;
+
 }

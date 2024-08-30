@@ -14,7 +14,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { auth } from "../../../firebase/firebaseConfig";
+import { auth, firestore } from "../../../firebase/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 
 function LoginComponent() {
   //manejar los errores de logueo
@@ -27,6 +28,7 @@ function LoginComponent() {
   const [errorsRegister, setErrorsRegister] = useState<registerErrors>({
     email: "",
     password: "",
+    userName: "",
   });
 
   //obtener información del usuario al loguearse
@@ -54,6 +56,7 @@ function LoginComponent() {
   const [userRegister, setUserRegister] = useState<registerUser>({
     email: "",
     password: "",
+    userName: "",
   });
 
   const handleRegisterChange = (
@@ -85,11 +88,20 @@ function LoginComponent() {
     event.preventDefault();
     if (errorsRegister.email === "" && errorsRegister.password === "") {
       try {
-        await createUserWithEmailAndPassword(
+        //Registra el user
+        const userCredential = await createUserWithEmailAndPassword(
           auth,
           userRegister.email,
           userRegister.password
         );
+        const userSave = userCredential.user;
+        console.log(userCredential);
+        // loguarda en base de datos
+        const userRef = doc(firestore, `users/${userSave.uid}`);
+        await setDoc(userRef, {
+          email: userSave.email,
+          userName: userRegister.userName,
+        });
         alert("se ha logueado");
       } catch (error) {
         alert("Error al crear usuario");
@@ -140,6 +152,26 @@ function LoginComponent() {
               {errorsRegister.email && (
                 <span className="text-sm p-0 m-0 text-red-500">
                   {errorsRegister.email}
+                </span>
+              )}
+
+              <label
+                className="block text-gray-700 text-sm font-medium mb-2"
+                htmlFor="userName"
+              >
+                Nombre de usuario
+              </label>
+              <input
+                id="userName"
+                name="userName"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+                type="text"
+                placeholder="Ingresa tu correo"
+                onChange={handleRegisterChange}
+              />
+              {errorsRegister.userName && (
+                <span className="text-sm p-0 m-0 text-red-500">
+                  {errorsRegister.userName}
                 </span>
               )}
 
