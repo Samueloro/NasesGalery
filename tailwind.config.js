@@ -11,7 +11,9 @@ module.exports = {
         Borgoña:"#800020",
         DarkGold:"#B8860B",
         DarkBlueMarine:"#0A0F24",
-        GraySmoke:"#686868"
+        GraySmoke:"#686868",
+        EsmeraldGreen: "#005C3A",
+        whiteSmoke: "#F5F5F5"
       }
     },
   },

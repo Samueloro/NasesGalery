@@ -130,13 +130,13 @@ function LoginComponent() {
     <div className="grid grid-cols-2 w-screen h-screen bg-Charcoal overflow-hidden">
       {formRegister && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-slate-400 rounded-lg flex-col p-8">
-            <p className="text-3xl font-semibold pb-7 flex items-center justify-center">
+          <div className="bg-Charcoal border-4 border-GrayBoard rounded-lg flex-col p-8">
+            <p className="text-3xl font-semibold pb-7 flex items-center justify-center text-GraySmoke">
               Registro
             </p>
             <form className="flex flex-col" onSubmit={registerUser}>
               <label
-                className="block text-gray-700 text-sm font-medium mb-2"
+                className="labelStyle"
                 htmlFor="email"
               >
                 Correo
@@ -144,7 +144,7 @@ function LoginComponent() {
               <input
                 id="email"
                 name="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+                className="inputStyle"
                 type="email"
                 placeholder="Ingresa tu correo"
                 onChange={handleRegisterChange}
@@ -156,7 +156,7 @@ function LoginComponent() {
               )}
 
               <label
-                className="block text-gray-700 text-sm font-medium mb-2"
+                className="labelStyle mt-6"
                 htmlFor="userName"
               >
                 Nombre de usuario
@@ -164,9 +164,9 @@ function LoginComponent() {
               <input
                 id="userName"
                 name="userName"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+                className="inputStyle"
                 type="text"
-                placeholder="Ingresa tu correo"
+                placeholder="Ingresa tu nombre de usuario"
                 onChange={handleRegisterChange}
               />
               {errorsRegister.userName && (
@@ -176,7 +176,7 @@ function LoginComponent() {
               )}
 
               <label
-                className="my-4 block text-gray-700 text-sm font-medium mb-2"
+                className="labelStyle mt-6"
                 htmlFor="password"
               >
                 Contraseña
@@ -184,7 +184,7 @@ function LoginComponent() {
               <input
                 name="password"
                 id="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+                className="inputStyle"
                 type="password"
                 placeholder="Ingresa tu contraseña"
                 onChange={handleRegisterChange}
@@ -197,13 +197,13 @@ function LoginComponent() {
               <div className="flex flex-row justify-between items-center">
                 <button
                   onClick={registerForm}
-                  className="p-2 mt-6 mr-8 bg-red-800 rounded-lg hover:scale-95 active:scale-90 active:bg-red-900"
+                  className="mt-6 mr-8 declineActionButton"
                 >
                   Tengo una cuenta
                 </button>
 
                 <button
-                  className="p-2 mt-6 ml-8 bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
+                  className="mt-6 ml-8 acceptActionButton"
                   type="submit"
                 >
                   Crear cuenta
@@ -213,13 +213,13 @@ function LoginComponent() {
           </div>
         </div>
       )}
-      <div className="h-fit w-1/2 ml-52 mt-64 rounded-lg bg-slate-400 flex flex-col justify-center items-center ">
-        <h1 className="text-4xl font-semibold p-8">Nases Galery</h1>
-        <p className="text-2xl font-medium pb-7">Ingresa a tu cuenta</p>
+      <div className="h-fit w-1/2 ml-52 mt-64 rounded-lg bg-Charcoal border-4 border-GrayBoard flex flex-col justify-center items-center ">
+        <h1 className="text-4xl font-semibold p-8 text-GraySmoke">Nases Galery</h1>
+        <p className="text-2xl font-medium pb-7 text-DarkBlueMarine">Ingresa a tu cuenta</p>
 
         <form className="flex flex-col" onSubmit={loginUser}>
           <label
-            className="block text-gray-700 text-sm font-medium mb-2"
+            className="labelStyle"
             htmlFor="email"
           >
             Correo
@@ -227,7 +227,7 @@ function LoginComponent() {
           <input
             id="email"
             name="email"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+            className="inputStyle"
             type="email"
             placeholder="Ingresa tu correo"
             onChange={handleLoginChange}
@@ -239,7 +239,7 @@ function LoginComponent() {
           )}
 
           <label
-            className="my-4 block text-gray-700 text-sm font-medium mb-2"
+            className="labelStyle mt-6"
             htmlFor="password"
           >
             Contraseña
@@ -247,7 +247,7 @@ function LoginComponent() {
           <input
             id="password"
             name="password"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+            className="inputStyle"
             type="password"
             placeholder="Ingresa tu contraseña"
             onChange={handleLoginChange}
@@ -258,17 +258,17 @@ function LoginComponent() {
             </span>
           )}
           <button
-            className="p-2 mt-6 w-full bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
+            className="acceptActionButton"
             type="submit"
           >
             Ingresa
           </button>
         </form>
 
-        <span>o</span>
+        <span className="mt-6 mb-0">o</span>
         <button
           onClick={registerForm}
-          className="p-2 mb-6 w-fit bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800"
+          className=" acceptActionButton mb-6 w-fit "
         >
           Crea una cuenta
         </button>

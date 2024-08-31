@@ -3,12 +3,11 @@ import { auth, storage } from "../../firebase/firebaseConfig";
 import { useNavigate, Link } from "react-router-dom";
 import React, { useState } from "react";
 import { ref, uploadBytes } from "firebase/storage";
-import { v4 as uuidv4 } from 'uuid'
-
+import { v4 as uuidv4 } from "uuid";
 
 interface NavbarProps {
   userName: string | undefined;
-  userId:string | undefined;
+  userId: string | undefined;
 }
 
 function NavBar({ userName, userId }: Readonly<NavbarProps>) {
@@ -48,13 +47,22 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
   };
 
   return (
-    <div className="flex flex-row justify-around p-6 bg-slate-800 text-white">
-      <ul className="flex flex-row w-full justify-around">
+    <div className="flex flex-row justify-around p-2 bg-Charcoal text-whiteSmoke font-semibold text-lg border-b-4 border-GrayBoard">
+      <ul className="flex flex-row w-full justify-around items-center">
         <li>
-          <Link to="/home" className="hover:underline">Inicio</Link>
+          <Link to="/home" className="hover:underline flex justify-center items-center">
+            <img src="/assets/Home.svg" alt="Inicio" title="Inicio" />
+            <span className="ml-2">Inicio</span>
+          </Link>
         </li>
         <li>
-          <button onClick={uploadaNewPic} className="hover:underline">Subir Fotos</button>
+          <button
+            onClick={uploadaNewPic}
+            className="hover:underline flex justify-center items-center"
+          >
+            <span className=" mr-2">Subir Fotos</span>
+            <img src="/assets/addPhoto.svg" alt="Add" title="Subir" />
+          </button>
         </li>
         {picsForm && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -87,13 +95,17 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
           </div>
         )}
         <li>
-          <Link to={`profile/${userName}`} className="capitalize hover:underline">
-            Perfil : {userName}
+          <Link
+            to={`profile/${userName}`}
+            className="flex justify-center items-center capitalize hover:underline"
+          >
+            <span>Mi Perfil</span>
+            <img src="/assets/Profile.svg" alt="profile" title={userName} />
           </Link>
         </li>
       </ul>
-      <button className=" w-32 hover:underline" onClick={logOut} >
-        Cerrar Sesion
+      <button className="w-10 mr-20" onClick={logOut}>
+        <img src="/assets/Logout.svg" alt="logout" title="Cerrar Sesion" />
       </button>
     </div>
   );
