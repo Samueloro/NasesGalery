@@ -110,22 +110,22 @@ function LoginComponent() {
           icon: "success",
           title: "Registro correcto",
           text: "Te damos la bienvenida a Nases Galery",
-          customClass:{
-            title:"text-white",
-            popup:"bg-Charcoal border-4 border-GrayBoard",
-            confirmButton:"acceptActionButton"
-          }
+          customClass: {
+            title: "text-white",
+            popup: "bg-Charcoal border-4 border-GrayBoard",
+            confirmButton: "acceptActionButton",
+          },
         });
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Registro invalido",
           text: "Revisa los datos o contacta un administrador",
-          customClass:{
-            title:"text-white",
-            popup:"bg-Charcoal border-4 border-GrayBoard",
-            confirmButton:"acceptActionButton"
-          }
+          customClass: {
+            title: "text-white",
+            popup: "bg-Charcoal border-4 border-GrayBoard",
+            confirmButton: "acceptActionButton",
+          },
         });
       }
     }
@@ -145,22 +145,22 @@ function LoginComponent() {
           icon: "success",
           title: "Inicio de sesion correcto",
           text: "Bienvenido de vuelta a Nases Galery",
-          customClass:{
-            title:"text-white",
-            popup:"bg-Charcoal border-4 border-GrayBoard",
-            confirmButton:"acceptActionButton"
-          }
+          customClass: {
+            title: "text-white",
+            popup: "bg-Charcoal border-4 border-GrayBoard",
+            confirmButton: "acceptActionButton",
+          },
         });
       } catch (error) {
         Swal.fire({
           icon: "error",
           title: "Inicio de sesion invalido",
           text: "Revisa los datos o contacta un administrador",
-          customClass:{
-            title:"text-white",
-            popup:"bg-Charcoal border-4 border-GrayBoard",
-            confirmButton:"acceptActionButton"
-          }
+          customClass: {
+            title: "text-white",
+            popup: "bg-Charcoal border-4 border-GrayBoard",
+            confirmButton: "acceptActionButton",
+          },
         });
       }
     }
@@ -187,11 +187,11 @@ function LoginComponent() {
         icon: "success",
         title: "Registro correcto",
         text: "Te damos la bienvenida a Nases Galery",
-        customClass:{
-          title:"text-white",
-          popup:"bg-Charcoal border-4 border-GrayBoard",
-          confirmButton:"acceptActionButton"
-        }
+        customClass: {
+          title: "text-white",
+          popup: "bg-Charcoal border-4 border-GrayBoard",
+          confirmButton: "acceptActionButton",
+        },
       });
     } catch (error) {
       console.error(error);
@@ -199,11 +199,11 @@ function LoginComponent() {
         icon: "error",
         title: "Registro invalido",
         text: "Revisa los datos o contacta un administrador",
-        customClass:{
-          title:"text-white",
-          popup:"bg-Charcoal border-4 border-GrayBoard",
-          confirmButton:"acceptActionButton"
-        }
+        customClass: {
+          title: "text-white",
+          popup: "bg-Charcoal border-4 border-GrayBoard",
+          confirmButton: "acceptActionButton",
+        },
       });
     }
   };
@@ -318,10 +318,15 @@ function LoginComponent() {
           </div>
         </div>
       )}
-      <div className="h-fit w-1/2 ml-52 mt-64 rounded-lg bg-Charcoal border-4 border-GrayBoard flex flex-col justify-center items-center ">
-        <h1 className="text-4xl font-semibold p-8 text-GraySmoke">
+      <div className="h-fit w-1/2 ml-52 mt-32 rounded-lg bg-Charcoal border-4 border-GrayBoard flex flex-col justify-center items-center ">
+        <h1 className="text-4xl font-semibold pt-8 text-DarkGold">
           Nases Galery
         </h1>
+        <img
+          src="./assets/camera.svg"
+          alt="camera"
+          className="m-0 p-0 pb-6 h-20"
+        />
         <p className="text-2xl font-medium pb-7 text-DarkBlueMarine">
           Ingresa a tu cuenta
         </p>
@@ -364,16 +369,18 @@ function LoginComponent() {
             Ingresa
           </button>
         </form>
-        <button onClick={loginWithGoogle} className="googleButton w-fit">
-          Ingresa con Google
-        </button>
-        <span className="m-0 p-0">o</span>
-        <button
-          onClick={registerForm}
-          className=" acceptActionButton mb-6 w-fit "
-        >
-          Crea una cuenta
-        </button>
+        <div className="flex justify-center items-center">
+          <button onClick={loginWithGoogle} className="googleButton w-fit">
+            Ingresa con Google
+          </button>
+          <span className="mx-4 p-0">o</span>
+          <button
+            onClick={registerForm}
+            className=" acceptActionButton w-fit "
+          >
+            Crea una cuenta
+          </button>
+        </div>
       </div>
 
       <div className="object-cover mx-auto my-auto h-full w-full m-0 p-0">
