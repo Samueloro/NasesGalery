@@ -12,7 +12,10 @@ import { validationRegister } from "./registerValidation";
 
 import {
   createUserWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth, firestore } from "../../../firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
@@ -126,6 +129,51 @@ function LoginComponent() {
     }
   };
 
+  //Regintro con Google
+  const registerWithGoogle = async () => {
+    try {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+
+      const result = await signInWithPopup(auth, provider);
+
+      // Información del usuario
+      const user = result.user;
+
+      // Guarda el usuario en la base de datos
+      const userRef = doc(firestore, `users/${user.uid}`);
+      await setDoc(userRef, {
+        email: user.email,
+        userName: user.displayName,
+      });
+
+      alert("Registro correcto con Google");
+    } catch (error) {
+      console.error(error);
+      alert("Error al registrarse con Google");
+    }
+  };
+
+  //Logueo con Google
+  const loginWithGoogle = async () => {
+    try {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      
+      const result = await signInWithPopup(auth, provider);
+      
+      // Información del usuario
+      const user = result.user;
+      
+      alert("Inicio de sesión correcto con Google");
+      return(user);
+    } catch (error) {
+      console.error(error);
+      alert("Error al iniciar sesión con Google");
+    }
+  };
+  
+
   return (
     <div className="grid grid-cols-2 w-screen h-screen bg-Charcoal overflow-hidden">
       {formRegister && (
@@ -134,11 +182,17 @@ function LoginComponent() {
             <p className="text-3xl font-semibold pb-7 flex items-center justify-center text-GraySmoke">
               Registro
             </p>
-            <form className="flex flex-col" onSubmit={registerUser}>
-              <label
-                className="labelStyle"
-                htmlFor="email"
+            <div className="flex justify-center">
+              <button
+                className="googleButton"
+                onClick={registerWithGoogle}
               >
+                Crear cuenta con Google
+              </button>
+            </div>
+              <span className="flex justify-center text-whiteSmoke">O ingresa tus datos: </span>
+            <form className="flex flex-col" onSubmit={registerUser}>
+              <label className="labelStyle" htmlFor="email">
                 Correo
               </label>
               <input
@@ -155,10 +209,7 @@ function LoginComponent() {
                 </span>
               )}
 
-              <label
-                className="labelStyle mt-6"
-                htmlFor="userName"
-              >
+              <label className="labelStyle mt-6" htmlFor="userName">
                 Nombre de usuario
               </label>
               <input
@@ -175,10 +226,7 @@ function LoginComponent() {
                 </span>
               )}
 
-              <label
-                className="labelStyle mt-6"
-                htmlFor="password"
-              >
+              <label className="labelStyle mt-6" htmlFor="password">
                 Contraseña
               </label>
               <input
@@ -202,10 +250,7 @@ function LoginComponent() {
                   Tengo una cuenta
                 </button>
 
-                <button
-                  className="mt-6 ml-8 acceptActionButton"
-                  type="submit"
-                >
+                <button className="mt-6 ml-8 acceptActionButton" type="submit">
                   Crear cuenta
                 </button>
               </div>
@@ -214,14 +259,15 @@ function LoginComponent() {
         </div>
       )}
       <div className="h-fit w-1/2 ml-52 mt-64 rounded-lg bg-Charcoal border-4 border-GrayBoard flex flex-col justify-center items-center ">
-        <h1 className="text-4xl font-semibold p-8 text-GraySmoke">Nases Galery</h1>
-        <p className="text-2xl font-medium pb-7 text-DarkBlueMarine">Ingresa a tu cuenta</p>
+        <h1 className="text-4xl font-semibold p-8 text-GraySmoke">
+          Nases Galery
+        </h1>
+        <p className="text-2xl font-medium pb-7 text-DarkBlueMarine">
+          Ingresa a tu cuenta
+        </p>
 
         <form className="flex flex-col" onSubmit={loginUser}>
-          <label
-            className="labelStyle"
-            htmlFor="email"
-          >
+          <label className="labelStyle" htmlFor="email">
             Correo
           </label>
           <input
@@ -238,10 +284,7 @@ function LoginComponent() {
             </span>
           )}
 
-          <label
-            className="labelStyle mt-6"
-            htmlFor="password"
-          >
+          <label className="labelStyle mt-6" htmlFor="password">
             Contraseña
           </label>
           <input
@@ -257,15 +300,17 @@ function LoginComponent() {
               {errorsLogin.password}
             </span>
           )}
-          <button
-            className="acceptActionButton"
-            type="submit"
-          >
+          <button className="acceptActionButton mt-6" type="submit">
             Ingresa
           </button>
         </form>
-
-        <span className="mt-6 mb-0">o</span>
+        <button
+          onClick={loginWithGoogle}
+          className="googleButton w-fit"
+        >
+          Ingresa con Google
+        </button>
+        <span className="m-0 p-0">o</span>
         <button
           onClick={registerForm}
           className=" acceptActionButton mb-6 w-fit "

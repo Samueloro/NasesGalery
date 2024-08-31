@@ -13,8 +13,8 @@ function HomeComponent({ userName, userId }: Readonly<HomeComponentProps>) {
   return (
     <>
       <NavBar userName={userName} userId={userId} />
-      <div className="w-full h-fit bg-slate-950 flex justify-center">
-        <div className="bg-slate-900 w-full mx-52">
+      <div className="w-full h-fit bg-Charcoal flex justify-center">
+        <div className=" w-full mx-52">
           <Routes>
             <Route path="/" element={ <CardsPosts />}/>
             <Route path="profile/:name" element={<Profile userName={userName}/>} />

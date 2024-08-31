@@ -34,21 +34,21 @@ function Profile({ userName }: Readonly<ProfileProps>) {
   }, [name, images, userName]);
 
   return (
-    <div>
+    <>
       <div className="flex justify-center">
         <h3 className="text-4xl p-6 mt-12 text-white font-bold">
           Mis Imágenes
         </h3>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center w-full h-full">
         {images.length > 0 ? (
-          <div className="flex flex-row flex-wrap justify-center mx-6 p-2 h-full w-auto rounded-lg bg-black bg-opacity-40">
+          <div className="flex  flex-wrap justify-center mx-6 p-2 h-full w-full rounded-lg bg-black bg-opacity-40">
             {images.map((url, index) => (
-              <div key={index} className="w-1/6 h-1/5 m-1 ">
+              <div key={index} className="w-fit h-fit m-1 flex flex-row flex-wrap justify-center p-4">
                 <img
                   src={url}
                   alt={`Imagen ${index}`}
-                  className="rounded-lg hover:scale-110"
+                  className="rounded-lg hover:scale-110 h-40"
                 />
               </div>
             ))}
@@ -59,7 +59,7 @@ function Profile({ userName }: Readonly<ProfileProps>) {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 

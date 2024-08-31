@@ -7,17 +7,28 @@
 }
 
 .acceptActionButton {
-  @apply p-2 mt-6  bg-EsmeraldGreen rounded-lg hover:scale-95 active:scale-90 text-DarkBlueMarine;
+  @apply p-2   bg-EsmeraldGreen rounded-lg hover:scale-95 active:scale-90 text-DarkBlueMarine font-semibold;
 }
 
 .declineActionButton{
-  @apply   p-2 bg-Borgoña rounded-lg hover:scale-95 active:scale-90 text-DarkBlueMarine;
+  @apply   p-2 bg-Borgoña rounded-lg hover:scale-95 active:scale-90 text-DarkBlueMarine font-semibold;
+}
+.acceptActionButton2 {
+  @apply p-2 mt-6  bg-EsmeraldGreen rounded-lg hover:scale-95 active:scale-90 text-whiteSmoke;
+}
+
+.declineActionButton2{
+  @apply   p-2 bg-Borgoña rounded-lg hover:scale-95 active:scale-90 text-whiteSmoke;
 }
 
 .cardPost{
-  @apply rounded-lg shadow-md overflow-hidden max-w-lg mx-auto my-6 border-4 border-GrayBoard;
+  @apply rounded-lg shadow-md overflow-hidden max-w-3xl  mx-auto my-6 border-4 border-GrayBoard;
 }
 
 .imagePost{
-  @apply w-full h-64 object-cover
+  @apply w-full h-[40rem] object-cover;
+}
+
+.googleButton{
+  @apply flex items-center justify-center w-fit p-3 mt-5 font-semibold text-DarkBlueMarine bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 mb-4;
 }

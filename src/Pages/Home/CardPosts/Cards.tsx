@@ -10,7 +10,6 @@ interface allImages {
 function CardsPosts() {
   const [allImages, setAllImages] = useState<allImages[]>([]);
 
-  console.log(allImages);
   const [imageLike, setImageLike] = useState<number[]>([]);
 
   useEffect(() => {
@@ -58,9 +57,11 @@ function CardsPosts() {
 
   return (
     <div>
-      <h3>Galeria Colectiva</h3>
+      <div className="flex items-center justify-center my-8">
+      <h3 className="text-5xl text-GraySmoke font-medium">Galeria Colectiva</h3>
+      </div>
       {allImages.length > 1 ? (
-        <div className="p-10">
+        <div className="p-10 pt-0">
           {allImages.map((imgData, index) => (
             <div key={index} className="cardPost">
                 <h4 className="text-lg font-semibold mb-2 text-whiteSmoke ml-2">

@@ -43,6 +43,9 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
     e.preventDefault();
     if (file) {
       uploadfile(file);
+      setPicsForm((prevStatus) => !prevStatus);
+    } else {
+      alert("No se ha subido ninguna imagen");
     }
   };
 
@@ -50,7 +53,10 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
     <div className="flex flex-row justify-around p-2 bg-Charcoal text-whiteSmoke font-semibold text-lg border-b-4 border-GrayBoard">
       <ul className="flex flex-row w-full justify-around items-center">
         <li>
-          <Link to="/home" className="hover:underline flex justify-center items-center">
+          <Link
+            to="/home"
+            className="hover:underline flex justify-center items-center"
+          >
             <img src="/assets/Home.svg" alt="Inicio" title="Inicio" />
             <span className="ml-2">Inicio</span>
           </Link>
@@ -67,7 +73,7 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
         {picsForm && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <form
-              className="bg-slate-400 w-1/4 h-1/4 rounded-lg p-6 flex flex-col justify-around"
+              className="bg-Charcoal border-4 border-GrayBoard w-1/4 h-1/4 rounded-lg p-6 flex flex-col justify-around"
               onSubmit={uploadImage}
             >
               <div className="flex items-center justify-center">
@@ -75,7 +81,7 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
                   id="image"
                   name="image"
                   type="file"
-                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  className="block w-full text-sm text-DarkBlueMarine border border-GrayBoard rounded-lg cursor-pointer bg-Charcoal  focus:outline-none"
                   onChange={chargeFile}
                 />
               </div>
@@ -83,11 +89,11 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
               <div className="flex flex-row justify-between items-center">
                 <button
                   onClick={uploadaNewPic}
-                  className="p-2 mt-6 mr-8 bg-red-800 rounded-lg hover:scale-95 active:scale-90 active:bg-red-900"
+                  className="mt-6 mr-8  declineActionButton2 "
                 >
                   Cancelar
                 </button>
-                <button className="p-2 mt-6 ml-8 bg-green-700 rounded-lg hover:scale-95 active:scale-90 active:bg-green-800">
+                <button className="acceptActionButton2 text-whiteSmoke">
                   Publicar
                 </button>
               </div>
