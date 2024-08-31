@@ -5,7 +5,7 @@ import LoginComponent from "./Pages/Auth/login/Login";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, firestore } from "./firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
-import HomeComponent from "./Pages/home/Home";
+import HomeComponent from "./Pages/Home/Home";
 
 function App() {
   const navigate = useNavigate();
