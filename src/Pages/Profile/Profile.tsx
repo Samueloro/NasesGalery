@@ -16,7 +16,6 @@ function Profile({ userName }: Readonly<ProfileProps>) {
       const imagesRef = ref(storage, `PostImages/`);
       try {
         const imageList = await listAll(imagesRef);
-        console.log(imageList.items);
         //encontrar solo las imágenes que coincidan con el usuario
         const userImages = imageList.items.filter((iref) => {
           const splitRef = iref.name.split("_")[1];
