@@ -7,8 +7,6 @@ import { auth, firestore } from "./firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import HomeComponent from "./Pages/home/Home";
 
-
-
 function App() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -27,7 +25,7 @@ function App() {
         } else {
           console.log("No se encontró el documento");
         }
-        setUserId(userF.uid)
+        setUserId(userF.uid);
         navigate("/home");
       } else {
         navigate("/");
@@ -36,7 +34,7 @@ function App() {
     });
     //limpiar la subscripción
     return () => unsubscribe();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -46,7 +44,10 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<LoginComponent />} />
-        <Route path="/home/*" element={<HomeComponent userName={userName} userId={userId}/>} />
+        <Route
+          path="/home/*"
+          element={<HomeComponent userName={userName} userId={userId} />}
+        />
       </Routes>
     </>
   );
