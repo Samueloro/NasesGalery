@@ -127,7 +127,7 @@ function LoginComponent() {
   };
 
   return (
-    <div className="grid grid-cols-2 w-screen h-screen bg-slate-800 overflow-hidden">
+    <div className="grid grid-cols-2 w-screen h-screen bg-Charcoal overflow-hidden">
       {formRegister && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-slate-400 rounded-lg flex-col p-8">

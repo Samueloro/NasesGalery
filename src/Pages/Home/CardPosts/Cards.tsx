@@ -1,52 +1,45 @@
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { firestore, storage } from "../../../firebase/firebaseConfig";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
-import { UserImage } from "./interfaceCard";
+import React, { useEffect, useState } from "react";
+import { storage } from "../../../firebase/firebaseConfig";
 
 function CardsPosts() {
-    const [userImages, setUserImages] = useState<UserImage[]>([]);
+  const [allImages, setAllImages] = useState<string[]>([]);
 
-  
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            // obtener lista de usernames
-            const querySnapshot = await getDocs(collection(firestore, "users"));
-            const usernames = querySnapshot.docs.map(doc => doc.id); 
-    
-            // traer imágenes
-            const allImages = await Promise.all(usernames.map(async (username) => {
-              const userImagesRef = ref(storage, username);
-              const imageList = await listAll(userImagesRef);
-              const urls = await Promise.all(
-                imageList.items.map((imageRef) => getDownloadURL(imageRef))
-              );
-              return urls.map(url => ({ url, username }));
-            }));
-    
-            const flattenedImages = allImages.flat();
-            setUserImages(flattenedImages);
-          } catch (error) {
-            console.error("Error fetching images: ", error);
-          }
-        };
-  
-      fetchData();
-    }, []);
-    return ( 
+  useEffect(() => {
+    const fetchAllImages = async () => {
+      const imagesRef = ref(storage, `PostImages/`);
+
+      try {
+        const imageList = await listAll(imagesRef);
+        const imageURL = await Promise.all(
+          imageList.items.map((imgRef) => getDownloadURL(imgRef))
+        );
+        setAllImages(imageURL)
+      } catch (error) {
+        console.error("Error al traer todas las imágenes", error)
+      }
+    };
+    fetchAllImages();
+  }, []);
+
+  return (
+    <div>
+      <h3>Galeria Colectiva</h3>
+      {allImages.length > 1 ? (
         <div>
-        <h1>All Users' Images</h1>
-        <div>
-          {userImages.map((image, index) => (
+          {allImages.map((url, index)=>(
             <div key={index}>
-              <h3>{image.username}</h3>
-              <img src={image.url} alt={`User ${image.username}`} style={{ width: "100px", height: "100px", margin: "5px" }} />
+              <img src={url} alt={url} />
             </div>
           ))}
         </div>
-      </div>
-     );
+      ):(
+        <div>
+          
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default CardsPosts;

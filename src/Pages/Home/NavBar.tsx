@@ -29,7 +29,7 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
   const [file, setFile] = useState<File | null>(null);
 
   const uploadfile = (file: File) => {
-    const storageRef = ref(storage, `${userName}/${uuidv4()}`);
+    const storageRef = ref(storage, `PostImages/${uuidv4()}_${userName}`);
     uploadBytes(storageRef, file).then((snapshot) => {
       alert("Imagen subida");
     });
