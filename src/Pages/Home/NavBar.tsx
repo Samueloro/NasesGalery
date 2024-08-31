@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import React, { useState } from "react";
 import { ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
+import Swal from "sweetalert2";
 
 interface NavbarProps {
   userName: string | undefined;
@@ -29,9 +30,7 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
 
   const uploadfile = (file: File) => {
     const storageRef = ref(storage, `PostImages/${uuidv4()}_${userName}`);
-    uploadBytes(storageRef, file).then((snapshot) => {
-      alert("Imagen subida");
-    });
+    uploadBytes(storageRef, file).then((snapshot) => {});
   };
 
   const chargeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,9 +42,29 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
     e.preventDefault();
     if (file) {
       uploadfile(file);
+      Swal.fire({
+        icon: "success",
+        title: "Imagen subida",
+        text: "Puedes revisar tu imagen en tu perfil",
+        customClass:{
+          title:"text-white",
+          popup:"bg-Charcoal",
+          confirmButton:"acceptActionButton"
+        }
+      })
+      setFile(null)
       setPicsForm((prevStatus) => !prevStatus);
     } else {
-      alert("No se ha subido ninguna imagen");
+      Swal.fire({
+        icon: "error",
+        title: "Publicación invalida",
+        text: "Algo ha ido mal y no ha sido posible subir la imagen",
+        customClass:{
+          title:"text-white",
+          popup:"bg-Charcoal border-4 border-GrayBoard",
+          confirmButton:"acceptActionButton"
+        }
+      })
     }
   };
 

@@ -19,6 +19,7 @@ import {
 } from "firebase/auth";
 import { auth, firestore } from "../../../firebase/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 function LoginComponent() {
   //manejar los errores de logueo
@@ -105,9 +106,27 @@ function LoginComponent() {
           email: userSave.email,
           userName: userRegister.userName,
         });
-        alert("se ha logueado");
+        Swal.fire({
+          icon: "success",
+          title: "Registro correcto",
+          text: "Te damos la bienvenida a Nases Galery",
+          customClass:{
+            title:"text-white",
+            popup:"bg-Charcoal border-4 border-GrayBoard",
+            confirmButton:"acceptActionButton"
+          }
+        });
       } catch (error) {
-        alert("Error al crear usuario");
+        Swal.fire({
+          icon: "error",
+          title: "Registro invalido",
+          text: "Revisa los datos o contacta un administrador",
+          customClass:{
+            title:"text-white",
+            popup:"bg-Charcoal border-4 border-GrayBoard",
+            confirmButton:"acceptActionButton"
+          }
+        });
       }
     }
   };
@@ -122,9 +141,27 @@ function LoginComponent() {
           userLogin.email,
           userLogin.password
         );
-        alert("se ha logueado");
+        Swal.fire({
+          icon: "success",
+          title: "Inicio de sesion correcto",
+          text: "Bienvenido de vuelta a Nases Galery",
+          customClass:{
+            title:"text-white",
+            popup:"bg-Charcoal border-4 border-GrayBoard",
+            confirmButton:"acceptActionButton"
+          }
+        });
       } catch (error) {
-        alert("Email o contraseña incorrectos");
+        Swal.fire({
+          icon: "error",
+          title: "Inicio de sesion invalido",
+          text: "Revisa los datos o contacta un administrador",
+          customClass:{
+            title:"text-white",
+            popup:"bg-Charcoal border-4 border-GrayBoard",
+            confirmButton:"acceptActionButton"
+          }
+        });
       }
     }
   };
@@ -146,11 +183,28 @@ function LoginComponent() {
         email: user.email,
         userName: user.displayName,
       });
-
-      alert("Registro correcto con Google");
+      Swal.fire({
+        icon: "success",
+        title: "Registro correcto",
+        text: "Te damos la bienvenida a Nases Galery",
+        customClass:{
+          title:"text-white",
+          popup:"bg-Charcoal border-4 border-GrayBoard",
+          confirmButton:"acceptActionButton"
+        }
+      });
     } catch (error) {
       console.error(error);
-      alert("Error al registrarse con Google");
+      Swal.fire({
+        icon: "error",
+        title: "Registro invalido",
+        text: "Revisa los datos o contacta un administrador",
+        customClass:{
+          title:"text-white",
+          popup:"bg-Charcoal border-4 border-GrayBoard",
+          confirmButton:"acceptActionButton"
+        }
+      });
     }
   };
 
@@ -159,20 +213,27 @@ function LoginComponent() {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
-      
+
       const result = await signInWithPopup(auth, provider);
-      
+
       // Información del usuario
       const user = result.user;
-      
-      alert("Inicio de sesión correcto con Google");
-      return(user);
+
+      Swal.fire({
+        icon: "success",
+        title: "Inicio de sesion correcto",
+        text: "Bienvenido de vuelta a Nases Galery",
+      });
+      return user;
     } catch (error) {
       console.error(error);
-      alert("Error al iniciar sesión con Google");
+      Swal.fire({
+        icon: "error",
+        title: "Inicio de sesion invalido",
+        text: "Revisa los datos o contacta un administrador",
+      });
     }
   };
-  
 
   return (
     <div className="grid grid-cols-2 w-screen h-screen bg-Charcoal overflow-hidden">
@@ -183,14 +244,13 @@ function LoginComponent() {
               Registro
             </p>
             <div className="flex justify-center">
-              <button
-                className="googleButton"
-                onClick={registerWithGoogle}
-              >
+              <button className="googleButton" onClick={registerWithGoogle}>
                 Crear cuenta con Google
               </button>
             </div>
-              <span className="flex justify-center text-whiteSmoke">O ingresa tus datos: </span>
+            <span className="flex justify-center text-whiteSmoke">
+              O ingresa tus datos:{" "}
+            </span>
             <form className="flex flex-col" onSubmit={registerUser}>
               <label className="labelStyle" htmlFor="email">
                 Correo
@@ -304,10 +364,7 @@ function LoginComponent() {
             Ingresa
           </button>
         </form>
-        <button
-          onClick={loginWithGoogle}
-          className="googleButton w-fit"
-        >
+        <button onClick={loginWithGoogle} className="googleButton w-fit">
           Ingresa con Google
         </button>
         <span className="m-0 p-0">o</span>

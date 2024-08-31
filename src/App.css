@@ -32,3 +32,7 @@
 .googleButton{
   @apply flex items-center justify-center w-fit p-3 mt-5 font-semibold text-DarkBlueMarine bg-blue-500 rounded-lg shadow-md hover:bg-blue-600 mb-4;
 }
+
+.alerContainer{
+  background-color: #2E2E2E;
+}

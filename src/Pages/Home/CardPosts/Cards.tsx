@@ -7,7 +7,11 @@ interface allImages {
   userPostName: string;
 }
 
-function CardsPosts() {
+interface acrdPostsProps {
+  userName: string | undefined;
+}
+
+function CardsPosts({userName}:Readonly<acrdPostsProps>) {
   const [allImages, setAllImages] = useState<allImages[]>([]);
 
   const [imageLike, setImageLike] = useState<number[]>([]);
@@ -30,13 +34,20 @@ function CardsPosts() {
           userPostName: imageNamePath[index],
         }));
 
-        setAllImages(imageData);
+        //Organizar las imágenes prímero las de otros users
+        const sortedImages = imageData.slice().sort((a, b) => {
+          if (a.userPostName === userName) return 1;
+          if (b.userPostName === userName) return -1;
+          return 0
+        });
+
+        setAllImages(sortedImages);
       } catch (error) {
         console.error("Error al traer todas las imágenes", error);
       }
     };
     fetchAllImages();
-  }, [allImages]);
+  }, [allImages, userName]);
 
   //Dar Like
 
@@ -58,16 +69,18 @@ function CardsPosts() {
   return (
     <div>
       <div className="flex items-center justify-center my-8">
-      <h3 className="text-5xl text-GraySmoke font-medium">Galeria Colectiva</h3>
+        <h3 className="text-5xl text-GraySmoke font-medium">
+          Galeria Colectiva
+        </h3>
       </div>
       {allImages.length > 1 ? (
         <div className="p-10 pt-0">
           {allImages.map((imgData, index) => (
             <div key={index} className="cardPost">
-                <h4 className="text-lg font-semibold mb-2 text-whiteSmoke ml-2">
-                  {imgData.userPostName} 
-                  <span className="ml-2 ">ha posteado:</span>
-                </h4>
+              <h4 className="text-lg font-semibold mb-2 text-whiteSmoke ml-2">
+                {imgData.userPostName}
+                <span className="ml-2 ">ha posteado:</span>
+              </h4>
               <img src={imgData.url} alt={imgData.url} className="imagePost" />
               <div className="p-4">
                 <div className="flex items-center justify-between">

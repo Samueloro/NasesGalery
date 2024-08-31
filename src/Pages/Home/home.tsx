@@ -16,7 +16,7 @@ function HomeComponent({ userName, userId }: Readonly<HomeComponentProps>) {
       <div className="w-full h-fit bg-Charcoal flex justify-center">
         <div className=" w-full mx-52">
           <Routes>
-            <Route path="/" element={ <CardsPosts />}/>
+            <Route path="/" element={ <CardsPosts userName={userName}/>}/>
             <Route path="profile/:name" element={<Profile userName={userName}/>} />
           </Routes>
         </div>
