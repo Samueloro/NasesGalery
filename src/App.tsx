@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginComponent from "./Pages/Auth/login/Login";
-import HomeComponent from "./Pages/home/Home";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, firestore } from "./firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
+import HomeComponent from "./Pages/home/Home";
 
 
 
