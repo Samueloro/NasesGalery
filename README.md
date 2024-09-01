@@ -40,7 +40,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local:
    ```
 2. Navega al directorio del proyecto:
    ```bash
-   cd Nases
+   cd NasesGalery
    ```
 3. Instala las dependencias necesarias:
    ```bash
