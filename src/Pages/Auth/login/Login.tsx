@@ -223,6 +223,11 @@ function LoginComponent() {
         icon: "success",
         title: "Inicio de sesion correcto",
         text: "Bienvenido de vuelta a Nases Galery",
+        customClass: {
+          title: "text-white",
+          popup: "bg-Charcoal border-4 border-GrayBoard",
+          confirmButton: "acceptActionButton",
+        },
       });
       return user;
     } catch (error) {
@@ -231,6 +236,11 @@ function LoginComponent() {
         icon: "error",
         title: "Inicio de sesion invalido",
         text: "Revisa los datos o contacta un administrador",
+        customClass: {
+          title: "text-white",
+          popup: "bg-Charcoal border-4 border-GrayBoard",
+          confirmButton: "acceptActionButton",
+        },
       });
     }
   };
@@ -374,10 +384,7 @@ function LoginComponent() {
             Ingresa con Google
           </button>
           <span className="mx-4 p-0">o</span>
-          <button
-            onClick={registerForm}
-            className=" acceptActionButton w-fit "
-          >
+          <button onClick={registerForm} className=" acceptActionButton w-fit ">
             Crea una cuenta
           </button>
         </div>

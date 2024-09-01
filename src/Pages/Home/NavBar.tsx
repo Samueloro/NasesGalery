@@ -6,7 +6,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
 import { folderInterface } from "./navbarInterfaces";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 interface NavbarProps {
   userName: string | undefined;
@@ -32,7 +32,8 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
 
   const uploadfile = async (file: File) => {
     //creamos una carpeta unica para cada imágen
-    const folderName = `${uuidv4()}_${userName}`;
+    const idImage = uuidv4();
+    const folderName = `${idImage}_${userName}`;
     //subimos la imágen y guardamos la url
     const storageRef = ref(storage, `PostImages/${folderName}/${file.name}`);
 
@@ -41,15 +42,15 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
         const downloadURL = await getDownloadURL(snapshot.ref);
 
         const folder: folderInterface = {
-          id: uuidv4(),
-          user:userName,
+          id: idImage,
+          user: userName,
           img: downloadURL,
           comments: [],
           likes: [],
         };
-
         //guardar la carpeta en firestore
-        await addDoc(collection(firestore, "images"), folder);
+        const docRef = doc(firestore, 'images', idImage)
+        await setDoc(docRef, folder)
       })
       .catch((error) => {
         console.error("Error al subir imagen", error);

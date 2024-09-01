@@ -8,9 +8,9 @@ export interface UserImage {
 
   export interface imageDataInterface{
     id:string;
-    user:string;
+    user:string ;
     img: string;
     comments:commentsInterface[];
-    likes:string[]
+    likes:string []
 }
 
