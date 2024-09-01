@@ -9,6 +9,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { commentsInterface } from "../navbarInterfaces";
 
 interface acrdPostsProps {
   userName: string | undefined;
@@ -16,7 +17,6 @@ interface acrdPostsProps {
 
 function CardsPosts({ userName }: Readonly<acrdPostsProps>) {
   const [allImages, setAllImages] = useState<imageDataInterface[]>([]);
-
   const [imageLike, setImageLike] = useState<number[]>([]);
 
   useEffect(() => {
@@ -81,6 +81,36 @@ function CardsPosts({ userName }: Readonly<acrdPostsProps>) {
     });
   };
 
+  //Comentarios
+  const [showInputC, setShowInputC] = useState<boolean>(false);
+  const [commentId, setCommentId] = useState<number>();
+  const [newComment, setNewComment] = useState<string>("");
+
+  const handleComments = async (index: number) => {
+    setCommentId(index);
+    setShowInputC((prevState) => !prevState);
+  };
+
+  const handleAddComments = async (id: string) => {
+    if(newComment.trim()===""){
+      setShowInputC(false);
+    }
+    const comment: commentsInterface = {
+      user: userName,
+      comment: newComment,
+    };
+    try {
+      const imageDocRef = doc(firestore, `images/${id}`);
+      await updateDoc(imageDocRef, {
+        comments: arrayUnion(comment),
+      });
+      setNewComment("");
+      setShowInputC(false);
+    } catch (error) {
+      console.error("Error al añadir comentario:", error);
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-center my-8">
@@ -123,10 +153,43 @@ function CardsPosts({ userName }: Readonly<acrdPostsProps>) {
                       {imgData.likes.length}
                     </span>
                     <span className="text-gray-600 font-medium ml-2">
-                      {imgData.likes.includes(userName || " ") ? "Liked" : "Like"}
+                      {imgData.likes.includes(userName || " ")
+                        ? "Liked"
+                        : "Like"}
                     </span>
                   </button>
+                  <button
+                    className="text-whiteSmoke font-semibold hover:text-EsmeraldGreen active:scale-95"
+                    onClick={() => handleComments(index)}
+                  >
+                    Comentar
+                  </button>
                 </div>
+                <div>
+                  {imgData.comments.map((c, index) => (
+                    <div key={index} className="my-2 px-4 border-2 rounded-lg border-GrayBoard">
+                      <h5 className="text-sm text-DarkGold font-medium">
+                        {c.user} ha comentado:
+                      </h5>
+                      <p className="text-whiteSmoke font-medium">{c.comment}</p>
+                    </div>
+                  ))}
+                </div>
+                {showInputC && commentId === index && (
+                  <div className="flex flex-col items-end">
+                    <textarea
+                      onChange={(e) => setNewComment(e.target.value)}
+                      name="comment"
+                      className="w-full rounded-lg mt-4 px-4 bg-transparent border-2 border-t-whiteSmoke"
+                    />
+                    <button
+                      onClick={() => handleAddComments(imgData.id)}
+                      className="acceptActionButton2 mt-2"
+                    >
+                      Añadir comentario
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

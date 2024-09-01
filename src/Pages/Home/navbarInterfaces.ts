@@ -8,6 +8,6 @@ export interface folderInterface{
 
 
 export interface commentsInterface {
-    user:string;
+    user:string | undefined;
     comment:string;
 }
