@@ -71,4 +71,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local:
 ## Licencia
 
 Nases Gallery no tiene una licencia específica.
-**Nota:** Este proyecto utiliza Firebase en su versión gratuita, lo que puede imponer límites diarios de escritura. Una vez que se excede esta cuota, algunas funcionalidades del proyecto pueden no estar disponibles temporalmente.
+
+## Nota:
+
+Este proyecto utiliza Firebase en su versión gratuita, lo que puede imponer límites diarios de escritura. Una vez que se excede esta cuota, algunas funcionalidades del proyecto pueden no estar disponibles temporalmente.
