@@ -16,9 +16,10 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { auth, firestore } from "../../../firebase/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 
 function LoginComponent() {
@@ -214,22 +215,41 @@ function LoginComponent() {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
 
-      const result = await signInWithPopup(auth, provider);
-
+      
       // Información del usuario
+      const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      Swal.fire({
-        icon: "success",
-        title: "Inicio de sesion correcto",
-        text: "Bienvenido de vuelta a Nases Galery",
-        customClass: {
-          title: "text-white",
-          popup: "bg-Charcoal border-4 border-GrayBoard",
-          confirmButton: "acceptActionButton",
-        },
-      });
-      return user;
+      //verificar si el usuario ya se ha registrado
+      const userDocRef = doc(firestore, `users/${user.uid}`);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        Swal.fire({
+          icon: "success",
+          title: "Inicio de sesion correcto",
+          text: "Bienvenido de vuelta a Nases Galery",
+          customClass: {
+            title: "text-white",
+            popup: "bg-Charcoal border-4 border-GrayBoard",
+            confirmButton: "acceptActionButton",
+          },
+        });
+        return user;
+      } else {
+        //si el usuario no está registrado
+        Swal.fire({
+          icon: "error",
+          title: "Inicio de sesion invalido",
+          text: "Revisa los datos o contacta un administrador",
+          customClass: {
+            title: "text-white",
+            popup: "bg-Charcoal border-4 border-GrayBoard",
+            confirmButton: "acceptActionButton",
+          },
+        });
+        await signOut(auth);
+      }
     } catch (error) {
       console.error(error);
       Swal.fire({

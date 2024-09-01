@@ -4,16 +4,16 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyCb2UKAOK5NlCmJHnudWWTm3ff2sOmYTmQ",
-  authDomain: "galer-ca582.firebaseapp.com",
-  projectId: "galer-ca582",
-  storageBucket: "galer-ca582.appspot.com",
-  messagingSenderId: "875528204145",
-  appId: "1:875528204145:web:09304637faf7c90a7b10d0",
-  measurementId: "G-2BWWBLRH6B"
+  apiKey: "AIzaSyCLRFm2Vad9x9yW1R0RCKhoiAwaj7y_Os0",
+  authDomain: "nases-galery-8d5b4.firebaseapp.com",
+  projectId: "nases-galery-8d5b4",
+  storageBucket: "nases-galery-8d5b4.appspot.com",
+  messagingSenderId: "41210823802",
+  appId: "1:41210823802:web:fa78025101e2c505c727c3",
+  measurementId: "G-VRJZPPZGZ5"
 };
 
-// Initialize Firebase
+// inicio de firebase y servicios
 const appFirebase = initializeApp(firebaseConfig);
 
 const auth = getAuth(appFirebase);
