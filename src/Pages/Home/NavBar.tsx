@@ -1,10 +1,12 @@
 import { signOut } from "firebase/auth";
-import { auth, storage } from "../../firebase/firebaseConfig";
+import { auth, firestore, storage } from "../../firebase/firebaseConfig";
 import { useNavigate, Link } from "react-router-dom";
 import React, { useState } from "react";
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
+import { folderInterface } from "./CardPosts/navbarInterfaces";
+import { addDoc, collection } from "firebase/firestore";
 
 interface NavbarProps {
   userName: string | undefined;
@@ -28,9 +30,29 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
   //Subir imágen
   const [file, setFile] = useState<File | null>(null);
 
-  const uploadfile = (file: File) => {
-    const storageRef = ref(storage, `PostImages/${uuidv4()}_${userName}`);
-    uploadBytes(storageRef, file).then((snapshot) => {});
+  const uploadfile = async (file: File) => {
+    //creamos una carpeta unica para cada imágen
+    const folderName = `${uuidv4()}_${userName}`;
+    //subimos la imágen y guardamos la url
+    const storageRef = ref(storage, `PostImages/${folderName}/${file.name}`);
+
+    uploadBytes(storageRef, file)
+      .then(async (snapshot) => {
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        const folder: folderInterface = {
+          id: uuidv4(),
+          img: downloadURL,
+          comments: [],
+          likes: [],
+        };
+
+        //guardar la carpeta en firestore
+        await addDoc(collection(firestore, "images"), folder);
+      })
+      .catch((error) => {
+        console.error("Error al subir imagen", error);
+      });
   };
 
   const chargeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,25 +68,25 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
         icon: "success",
         title: "Imagen subida",
         text: "Puedes revisar tu imagen en tu perfil",
-        customClass:{
-          title:"text-white",
-          popup:"bg-Charcoal",
-          confirmButton:"acceptActionButton"
-        }
-      })
-      setFile(null)
+        customClass: {
+          title: "text-white",
+          popup: "bg-Charcoal",
+          confirmButton: "acceptActionButton",
+        },
+      });
+      setFile(null);
       setPicsForm((prevStatus) => !prevStatus);
     } else {
       Swal.fire({
         icon: "error",
         title: "Publicación invalida",
         text: "Algo ha ido mal y no ha sido posible subir la imagen",
-        customClass:{
-          title:"text-white",
-          popup:"bg-Charcoal border-4 border-GrayBoard",
-          confirmButton:"acceptActionButton"
-        }
-      })
+        customClass: {
+          title: "text-white",
+          popup: "bg-Charcoal border-4 border-GrayBoard",
+          confirmButton: "acceptActionButton",
+        },
+      });
     }
   };
 

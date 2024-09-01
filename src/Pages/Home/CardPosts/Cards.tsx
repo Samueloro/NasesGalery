@@ -1,11 +1,7 @@
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { storage } from "../../../firebase/firebaseConfig";
-
-interface allImages {
-  url: string;
-  userPostName: string;
-}
+import { allImages } from "./interfaceCard";
 
 interface acrdPostsProps {
   userName: string | undefined;
