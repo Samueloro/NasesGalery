@@ -40,7 +40,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local:
    ```
 2. Navega al directorio del proyecto:
    ```bash
-   cd nases-gallery
+   cd Nases
    ```
 3. Instala las dependencias necesarias:
    ```bash
@@ -68,8 +68,7 @@ Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local:
 
 - Puedes probar la aplicación en vivo en el siguiente enlace: https://nases-galery-c54q.vercel.app/.
 
-
 ## Licencia
 
-Nases Gallery no tiene una licencia específica. 
+Nases Gallery no tiene una licencia específica.
 **Nota:** Este proyecto utiliza Firebase en su versión gratuita, lo que puede imponer límites diarios de escritura. Una vez que se excede esta cuota, algunas funcionalidades del proyecto pueden no estar disponibles temporalmente.
