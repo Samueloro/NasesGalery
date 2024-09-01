@@ -1,7 +1,8 @@
-import { getDownloadURL, listAll, ref } from "firebase/storage";
-import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { storage } from "../../firebase/firebaseConfig";
+import { firestore } from "../../firebase/firebaseConfig";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { imageDataInterface } from "../Home/CardPosts/interfaceCard";
 
 interface ProfileProps {
   userName: string | undefined;
@@ -9,29 +10,31 @@ interface ProfileProps {
 
 function Profile({ userName }: Readonly<ProfileProps>) {
   const { name } = useParams<{ name: string }>();
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<imageDataInterface[]>([]);
 
   useEffect(() => {
     const fetchImages = async () => {
-      const imagesRef = ref(storage, `PostImages/`);
       try {
-        const imageList = await listAll(imagesRef);
-        //encontrar solo las imágenes que coincidan con el usuario
-        const userImages = imageList.items.filter((iref) => {
-          const splitRef = iref.name.split("_")[1];
-          return splitRef === userName;
-        });
+        const imagesRef = collection(firestore, `images`);
+        const querySnapshot = await getDocs(imagesRef);
+        const allImages:imageDataInterface[] = [];
 
-        const urls = await Promise.all(
-          userImages.map((imageRef) => getDownloadURL(imageRef))
-        );
-        setImages(urls);
+        querySnapshot.forEach((doc) => {
+          allImages.push({ id: doc.id, ...doc.data() } as imageDataInterface);
+          //filtrar solos las que pertenencen al perfil del user
+          if (doc.data().user === name) {
+            const filterUserImages = allImages.filter(
+              (img) => img.user === name
+            );
+            setImages(filterUserImages);
+          }
+        });
       } catch (error) {
         console.error("Error al traer imágenes: ", error);
       }
     };
     fetchImages();
-  }, [name, images, userName]);
+  }, [name, userName]);
 
   return (
     <>
@@ -43,11 +46,14 @@ function Profile({ userName }: Readonly<ProfileProps>) {
       <div className="flex justify-center w-full h-full">
         {images.length > 0 ? (
           <div className="flex  flex-wrap justify-center mx-6 p-2 h-full w-full rounded-lg bg-black bg-opacity-40">
-            {images.map((url, index) => (
-              <div key={index} className="w-fit h-fit m-1 flex flex-row flex-wrap justify-center p-4">
+            {images.map((data, index) => (
+              <div
+                key={index}
+                className="w-fit h-fit m-1 flex flex-row flex-wrap justify-center p-4"
+              >
                 <img
-                  src={url}
-                  alt={`Imagen ${index}`}
+                  src={data.img}
+                  alt={`Post número ${index} de ${data.user}`}
                   className="rounded-lg hover:scale-110 h-40"
                 />
               </div>
