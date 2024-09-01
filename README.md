@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+# Nases Gallery
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+¡Bienvenido a **Nases Gallery**! 🎉
 
-## Available Scripts
+Nases Gallery es una galería comunitaria donde las personas pueden subir sus imágenes y reaccionar o comentar en las imágenes de otros usuarios. Es una plataforma perfecta para compartir momentos y explorar la creatividad de una comunidad diversa.
 
-In the project directory, you can run:
+## Características
 
-### `npm start`
+- **Subida de Imágenes**: Los usuarios pueden subir sus propias imágenes y compartirlas con la comunidad.
+- **Reacciones y Comentarios**: Los usuarios pueden dar 'me gusta' y comentar en las imágenes de otros.
+- **Perfil Personalizado**: Cada usuario tiene un perfil donde puede ver todas las imágenes que ha subido.
+- **Autenticación Segura**: Inicio de sesión a través de Google o correo electrónico y contraseña.
+- **Navegación Sencilla**: Fácil acceso a la galería, perfil y opciones de cierre de sesión a través de la barra de navegación.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tecnologías Usadas
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Este proyecto fue construido usando:
 
-### `npm test`
+- **React**: Biblioteca para construir interfaces de usuario.
+- **Tailwind CSS**: Framework CSS para un diseño rápido y responsivo.
+- **TypeScript**: Superconjunto de JavaScript que añade tipado estático.
+- **SweetAlert**: Librería para alertas y diálogos bonitos.
+- **Firebase**: Plataforma para desarrollo de aplicaciones web y móviles, utilizada aquí para la autenticación y almacenamiento de datos.
+- **UUID**: Librería para generar identificadores únicos universales.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Requisitos Previos
 
-### `npm run build`
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Node.js**: [Descargar Node.js](https://nodejs.org/)
+- **npm**: Gestor de paquetes que viene con Node.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Instrucciones de Instalación
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Sigue estos pasos para configurar y ejecutar el proyecto en tu máquina local:
 
-### `npm run eject`
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/Samueloro/NasesGalery.git
+   ```
+2. Navega al directorio del proyecto:
+   ```bash
+   cd nases-gallery
+   ```
+3. Instala las dependencias necesarias:
+   ```bash
+   npm install
+   ```
+4. Inicia la aplicación:
+   ```bash
+   npm start
+   ```
+5. Abre tu navegador y visita http://localhost:3000 para ver la aplicación en acción.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Uso
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Crear una Cuenta:** En la pestaña de inicio de sesión, puedes registrarte utilizando Google o con un correo electrónico y contraseña.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+2. **Explorar la Galería:** En la página principal, puedes ver las publicaciones de otros usuarios. Dale 'me gusta' o comenta en cualquier imagen que te guste.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. **Subir Imágenes:** Haz clic en "Subir Imágenes" para abrir un formulario, selecciona un archivo y publícalo.
 
-## Learn More
+4. **Ver Tu Perfil:** Navega a tu perfil para ver todas las imágenes que has subido. Al pasar el cursor sobre una imagen, podrás ver cuántos 'me gusta' tiene.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. **Cerrar Sesión:** Puedes cerrar sesión en cualquier momento desde el menú de navegación.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Despliegue
+
+- Puedes probar la aplicación en vivo en el siguiente enlace: https://nases-galery-c54q.vercel.app/.
+
+
+## Licencia
+
+Nases Gallery no tiene una licencia específica. 
+**Nota:** Este proyecto utiliza Firebase en su versión gratuita, lo que puede imponer límites diarios de escritura. Una vez que se excede esta cuota, algunas funcionalidades del proyecto pueden no estar disponibles temporalmente.
