@@ -17,7 +17,7 @@ function Profile({ userName }: Readonly<ProfileProps>) {
       try {
         const imagesRef = collection(firestore, `images`);
         const querySnapshot = await getDocs(imagesRef);
-        const allImages:imageDataInterface[] = [];
+        const allImages: imageDataInterface[] = [];
 
         querySnapshot.forEach((doc) => {
           allImages.push({ id: doc.id, ...doc.data() } as imageDataInterface);
@@ -49,13 +49,21 @@ function Profile({ userName }: Readonly<ProfileProps>) {
             {images.map((data, index) => (
               <div
                 key={index}
-                className="w-fit h-fit m-1 flex flex-row flex-wrap justify-center p-4"
+                className="group relative w-fit h-fit m-1 flex flex-row flex-wrap justify-center p-4"
               >
                 <img
                   src={data.img}
                   alt={`Post número ${index} de ${data.user}`}
-                  className="rounded-lg hover:scale-110 h-40"
+                  className="rounded-lg  h-40"
                 />
+                <div className="flex flex-row items-center justify-center p-4 rounded-lg absolute bottom-0 left-0 w-full h-full bg-black bg-opacity-80 text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="flex flex-row justify-center items-center">
+                    <span className="font-medium mr-2">
+                      {data.likes.length}
+                    </span>
+                    <img src="/assets/like2.svg" alt="" />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
