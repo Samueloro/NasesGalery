@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import Swal from "sweetalert2";
-import { folderInterface } from "./CardPosts/navbarInterfaces";
+import { folderInterface } from "./navbarInterfaces";
 import { addDoc, collection } from "firebase/firestore";
 
 interface NavbarProps {
@@ -42,6 +42,7 @@ function NavBar({ userName, userId }: Readonly<NavbarProps>) {
 
         const folder: folderInterface = {
           id: uuidv4(),
+          user:userName,
           img: downloadURL,
           comments: [],
           likes: [],

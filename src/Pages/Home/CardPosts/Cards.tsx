@@ -1,43 +1,35 @@
-import { getDownloadURL, listAll, ref } from "firebase/storage";
 import React, { useEffect, useState } from "react";
-import { storage } from "../../../firebase/firebaseConfig";
-import { allImages } from "./interfaceCard";
+import { firestore } from "../../../firebase/firebaseConfig";
+import { imageDataInterface } from "./interfaceCard";
+import { collection, getDocs } from "firebase/firestore";
 
 interface acrdPostsProps {
   userName: string | undefined;
 }
 
-function CardsPosts({userName}:Readonly<acrdPostsProps>) {
-  const [allImages, setAllImages] = useState<allImages[]>([]);
+function CardsPosts({ userName }: Readonly<acrdPostsProps>) {
+  const [allImages, setAllImages] = useState<imageDataInterface[]>([]);
 
   const [imageLike, setImageLike] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchAllImages = async () => {
-      const imagesRef = ref(storage, `PostImages/`);
-
       try {
-        const imageList = await listAll(imagesRef);
-        const imageURL = await Promise.all(
-          imageList.items.map((imgRef) => getDownloadURL(imgRef))
-        );
-        const imageNamePath = imageList.items.map(
-          (img) => img.fullPath.split("_")[1]
-        );
-
-        const imageData: allImages[] = imageURL.map((url, index) => ({
-          url,
-          userPostName: imageNamePath[index],
-        }));
-
-        //Organizar las imágenes prímero las de otros users
-        const sortedImages = imageData.slice().sort((a, b) => {
-          if (a.userPostName === userName) return 1;
-          if (b.userPostName === userName) return -1;
-          return 0
+        const imagesRef = collection(firestore, `images`);
+        const querySnapshot = await getDocs(imagesRef);
+        //para guardar la info de todos los post
+        const imagesArray:imageDataInterface[]= [];
+        //por cada dicymento agregamos un obj
+        querySnapshot.forEach(doc => {
+          imagesArray.push({id:doc.id, ...doc.data()} as imageDataInterface)
         });
-
-        setAllImages(sortedImages);
+        // primero los post de otros users
+        const sortedImages = imagesArray.slice().sort((a, b)=>{
+          if (a.user === userName)return 1
+          if (b.user === userName)return -1
+          return 0
+        })
+        setAllImages(sortedImages)
       } catch (error) {
         console.error("Error al traer todas las imágenes", error);
       }
@@ -74,10 +66,10 @@ function CardsPosts({userName}:Readonly<acrdPostsProps>) {
           {allImages.map((imgData, index) => (
             <div key={index} className="cardPost">
               <h4 className="text-lg font-semibold mb-2 text-whiteSmoke ml-2">
-                {imgData.userPostName}
+                {imgData.user}
                 <span className="ml-2 ">ha posteado:</span>
               </h4>
-              <img src={imgData.url} alt={imgData.url} className="imagePost" />
+              <img src={imgData.img} alt={`${imgData.user} puplicación`} className="imagePost" />
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <button
